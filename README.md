@@ -1,12 +1,22 @@
 # algo_notes
 
 ## Purpose 
-This repo contains lecture notes (including concerte implementations of the algorithm that were discussed) from class. Serve a purpose to help to review the matrials faster.  
+This repo contains lecture highlights, as well as concrete implementations of the algorithms which were discussed in class. It serves a purpose to help to review the materials faster.  
 
-Why a Github repo? 
-  * 比Google Doc 更快
-  * Easier to manage and maintain  
-  * The structure is clearer. 
+**Why a Github repo?**  
+  * Loads faster than Google Doc.
+  * Easier to manage, maintain and most importantly, to contribute.   
+  * The table of contents' structure is clearer. 
+  
+**To contribute:**
+  * **Please must** create pull requests if you want to contribute, and the code must be tested and reviewed before merging into the master. 
+  * The master branch should only contain bug-free code. 
+  * _open to suggestions_
+  
+  **Questions**: 
+   * create a `issue` if you have any questions about the class material. So everybody can see and help to answer them. 
+   
+ _More housekeeping rules to be added!_
 
 ## Table of contents  
 * [About Sorting](https://github.com/ywang0811/algo_notes/blob/master/sorting.md)
