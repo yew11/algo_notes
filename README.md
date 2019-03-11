@@ -4,9 +4,10 @@
 This repo contains lecture highlights, as well as concrete implementations of the algorithms which were discussed in class. It serves a purpose to help to review the materials faster.  
 
 **Why a Github repo?**  
-  * Loads faster than Google Doc.
+  * Load faster than Google Docs.
   * Easier to manage, maintain and most importantly, to contribute.   
-  * The table of contents' structure is clearer. 
+  * The table of contents' structure is clearer, finding a topic cannot be easier. 
+  * 妈妈再也不用担心我的学习
   
 **To contribute:**
   * **Please must** create pull requests if you want to contribute, and the code must be tested and reviewed before merging into the master. 
