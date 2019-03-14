@@ -8,7 +8,6 @@
     + [Triangle problem](#given-an-integer-sorted-array-with-all-positive-integer-values)
     + [Two-diff](#two-diff-problems)
     + [max(subset) - min(subset) <= target)](#bar-raiser)
-bar raiser
 
 # Two-Sum and Two-Diff problem 
 
