@@ -1,4 +1,4 @@
-+ [Two Sum (1) - Mar 10th]()
++ [Two Sum (1) - Mar 10th](two-sum)
 
 # Two-Sum and Two-Diff problem 
 
@@ -158,7 +158,23 @@ e.g: `[1, 3, 1, 3] target = 4, return 4`
  }
  ```
  
-  
+ ### **Q4 Given two arbitary array (with duplicates), find all pairs with `largest Sum <= target`**
+ 
+ ```
+ A: [2, 1, 3, 3, 5]
+ B: [4, 4, 9, 4, 9]
+ target = 8 
+```
+Solution 1: 
+
+先分别将两个数组排序，排序后数组变成： 
+
+A: [1, 2, **3, 3**, 5]
+
+B: [**4, 4, 4**, 9, 9]
+
+直观可见，A数组中的两个`3`和B中的三个`4`为答案，最后答案为6。
+
 
 
 
