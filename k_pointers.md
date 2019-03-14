@@ -1,8 +1,12 @@
-+ [Two Sum (1) - Mar 10th](two-sum)
+# Quick Index
++ [Two Sum (1) - Mar 10th](#two-sum-and-two-diff-problem)
+    + [Exist a 2-sum pair](#given-a-sorted-array-determine-if-exist-a-pair-of-elements-sum-to-target)
+    + [How many 2-sum pair](#given-a-sorted-array-find-how-many-sum-to-target)
++ [Two Sum (2) - Mar 13th](#two-sum-and-two-diff-problem)
 
 # Two-Sum and Two-Diff problem 
 
-### **Q1 Given a sorted array, determine `if there` is a pair of elements sum to target**
+### **Given a sorted array, determine if exist a pair of elements sum to target**
 
 1. Starting from `brute Force` way of thinking 
 
@@ -31,7 +35,7 @@ public boolean twoSum(int[] array, int target) {
 }
 ```
 
-### **Q2 Given a sorted array, find `how many pairs` of elements sum to target**
+### **Q2 Given a sorted array, find how many pairs sum to target**
 
 **(1) Sorted, No duplicate**
 
@@ -238,9 +242,119 @@ public int validTrianglePairs(int[] array) {
 }
 ```
 
-可能要解释一下 `count += (right - left)`这句话，因为 array是sorted的性质，
+可能要解释一下 `count += (right - left)`这句话，因为 array是sorted的性质，又因为如果left+right已经大于了target，那么left和right中间所有的元素也都大于target。
+
+### **Q6. 2-Diff：how many pairs diff = target(< target, > target), where target > 0
+
+**(1) The array is sorted, no duplicates**
+
+Example: 
+
+array = [1, 2, 3, 4] target = 2, return 2 (3-1), (4-2)
+
+Solution:
+
+还是和之前一样，固定J，只不过这一次同向而行，找出所有的i < j, such that array[i] = array[j] - diff 
+
+```
+public int diffPairs(int[] A, int diff) {
+    int res = 0;
+    int i = 0, j = 1; 
+    while (j < A.length) {
+        if (A[i] == A[j] - diff) {
+            j++; 
+            res++; 
+        } else if (A[i] < A[j] - diff) {
+            i++; 
+        } else {
+            j++; 
+        }
+    }
+    return res; 
+}
+```
+
+**(2) Follow up: how many pairs diff > target**
+
+array = [1, 2, 3, 4, 5] target = 2, return 2 (4-1), (5-2)
 
 
+```
+public int diffPairs(int[] A, int diff) {
+    int res = 0;
+    int i = 0, j = 1; 
+    while (j < A.length) {
+        if (A[i] >= A[j] - diff) {
+            j++; 
+            res += i; 
+        } else { //A[j] - A[i] > target
+            i++; 
+        }
+    }
+    return res; 
+}
+```
 
+**(3) Follow up: The array is unsorted** 
+
+array = [1, 3, 1, 3] target = 2, return 4 
+
+Solution 1: sort the array first. 
+
+Solution 2: 
+
+(1) Find all pairs (i, j) such that i < j, and array[j] - array[i] = target.
+
+(2) For each j, 
+   
+   Find numbers of i < j, that array[i] = array[j] - target
+   Find numbers of i < j, that array[i] = array[j] + target
     
+```
+public int findPairs(int[] A, int diff) {
+    //maintain a count for each value traversed so far
+    Map<Integer, Integer> map = new HashMap<>(); 
+    int count = 0; 
+    for (int ele : A) {
+        count += map.getOrDefault(ele - diff, 0); 
+        count += map.getOrDefault(ele + diff, 0); 
+        map.put(ele, map.getOrDefault(ele, 0) + 1); 
+    }
+    return count; 
+}
+```
+
+### **Q7. Given a sorted array, find the number of subsets that max(subset) - min(subset) <= target**
+
+clarification: target > 0,  no duplicates in the sorted array, subset size >= 1
+
+Example: 
+
+array = [1, 3, 5, 6, 8], target = 4 
+
+分解方式：
+
+for each j (array[j] as the `max` number in the subsets ending at j):
+
+**把Array[j]做为最大值！**
+
+we find the leftmost `i` such that i <= j, and array[j] - array[i] <= target
+
+```
+public int findSubset(int[] A, int target) {
+    int i = 0; 
+    int j = 0; 
+    int res = 0; 
+    while (j < A.length) {
+        if (A[j] - A[i] <= target) {
+            res += 1 << (j - i); 
+            j++; 
+        } else {
+            i++; 
+        }
+    }
+    return res; 
+}
+```
+
  
