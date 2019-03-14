@@ -1,8 +1,15 @@
 # Quick Index
-+ [Two Sum (1) - Mar 10th](#two-sum-and-two-diff-problem)
++ **[Two Sum (1) - Mar 10th](#two-sum-and-two-diff-problem)**
     + [Exist a 2-sum pair](#given-a-sorted-array-determine-if-exist-a-pair-of-elements-sum-to-target)
-    + [How many 2-sum pair](#given-a-sorted-array-find-how-many-sum-to-target)
-+ [Two Sum (2) - Mar 13th](#two-sum-and-two-diff-problem)
+    + [Number of 2-sum pairs](#given-a-sorted-array-find-how-many-pairs-sum-to-target)
+    + [Unsorted number of 2-sum pairs](#given-an-unsorted-array-find-how-many-pairs-of-elements-sum-to-target)
++ **[Two Sum (2) - Mar 13th](#two-sum-and-two-diff-problem)**
+    + [Largest sum <= target](#given-two-arbitary-array-find-all-pairs-with-largest-sum-smaller-than-target)
+    + [Triangle problem](#given-an-integer-sorted-array-with-all-positive-integer-values)
+    + [Two-diff](#two-diff-problems)
+    + [max(subset) - min(subset) <= target)](#bar-raiser)
+
+
 
 # Two-Sum and Two-Diff problem 
 
@@ -35,7 +42,7 @@ public boolean twoSum(int[] array, int target) {
 }
 ```
 
-### **Q2 Given a sorted array, find how many pairs sum to target**
+### **Given a sorted array, find how many pairs sum to target**
 
 **(1) Sorted, No duplicate**
 
@@ -127,7 +134,7 @@ public int twoSum(int[] array, int target) {
 }
 ```
 
-### **Q3 Given an `unsorted` array, find `how many pairs` of elements sum to target**
+### **Given an unsorted array, find how many pairs of elements sum to target**
 
 e.g: `[1, 3, 1, 3] target = 4, return 4` 
 
@@ -162,7 +169,9 @@ e.g: `[1, 3, 1, 3] target = 4, return 4`
  }
  ```
  
- ### **Q4 Given two arbitary array (with duplicates), find all pairs with `largest Sum <= target`**
+ ### **Given two arbitary array, find all pairs with largest sum smaller than target**
+ 
+ note: possibly with duplicates. 
  
  ```
  A: [2, 1, 3, 3, 5]
@@ -182,7 +191,7 @@ B: [**4, 4, 4**, 9, 9]
 **Follow up: What if we want to return the index**
 
 
-### **Q5. Given an integer sorted array with all positive integer values**
+### **Given an integer sorted array with all positive integer values**
 
 **(1) Can we pick three elements in the array as the lengths of edges, to contrust any `triangles`**
 
@@ -244,7 +253,9 @@ public int validTrianglePairs(int[] array) {
 
 可能要解释一下 `count += (right - left)`这句话，因为 array是sorted的性质，又因为如果left+right已经大于了target，那么left和right中间所有的元素也都大于target。
 
-### **Q6. 2-Diff：how many pairs diff = target(< target, > target), where target > 0
+### **Two-Diff problems**
+
+#### how many pairs diff = target(< target, > target), where target > 0? 
 
 **(1) The array is sorted, no duplicates**
 
@@ -324,7 +335,8 @@ public int findPairs(int[] A, int diff) {
 }
 ```
 
-### **Q7. Given a sorted array, find the number of subsets that max(subset) - min(subset) <= target**
+### Bar-rasier
+**Given a sorted array, find the number of subsets that max(subset) - min(subset) <= target**
 
 clarification: target > 0,  no duplicates in the sorted array, subset size >= 1
 
