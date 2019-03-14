@@ -175,6 +175,70 @@ B: [**4, 4, 4**, 9, 9]
 
 直观可见，A数组中的两个`3`和B中的三个`4`为答案，最后答案为6。
 
+**Follow up: What if we want to return the index**
+
+
+### **Q5. Given an integer sorted array with all positive integer values**
+
+**(1) Can we pick three elements in the array as the lengths of edges, to contrust any `triangles`**
+
+Example: 
+
+array = [1, 2, 3, 4], return `True`. (2, 3, 4) is a valid triangle. 
+
+Solution: 
+
+How to construct a triangle?
+
+两边之和大于第三边： x + y > z 
+
+So, the problem translates to: **Find if there is any index tuple, such i < j < k and array[i] + array[j] > array[k]**
+
+题目只要找出一对满足要求的tuple，那我们选择固定最右边的K，所以 i = k - 1， j = k - 2
+
+```
+public boolean validTriangle(int[] array) {
+    for (int i = array.length - 1; i > 1; i--) {
+        if (array[i] < array[i - 1] + array[i - 2]) return true; 
+        else continue; 
+    }    
+}
+```
+
+**(2) How `many` triangles can we get, still using the sorted array**
+
+Example : 
+
+array = [2, 3, 4, 5], return 3 
+
+answers: `2, 3, 4`, `3, 4, 5`, `2, 4, 5` 
+
+解题思路还跟上题一样，找出是否有index tuple，并且有几对，满足array[i] + array[j] > array[k] 
+
+Solution：
+
+固定K，找到有几对pairs of (i, j)，要求i < j < k, array[i] + array[j] > array[k]。
+
+你可能已经看到了，这道题可以转换成`2 sum larger than target`的经典问题。
+
+```
+public int validTrianglePairs(int[] array) {
+    int count = 0; 
+    for (int i = array.length - 1; i > 1; i--) {
+        int left = 0;
+        int right = i - 1; 
+        while (left < right) {
+            if (array[left] + array[right] > array[i]) {
+                count += (right - left); 
+                right--; 
+            } else left++; 
+        }
+        return count; 
+    }
+}
+```
+
+可能要解释一下 `count += (right - left)`这句话，因为 array是sorted的性质，
 
 
 
