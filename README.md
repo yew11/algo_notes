@@ -20,9 +20,9 @@ This repo contains lecture highlights, as well as concrete implementations of th
  _More housekeeping rules to be added!_
 
 ## Table of Contents  
-* [About Sorting](https://github.com/ywang0811/algo_notes/blob/master/sorting.md)
-* [2 (or K) pointers](https://github.com/ywang0811/algo_notes/blob/master/k_pointers.md)
-* [Tree related]()
+* [About Sorting](sorting.md)
+* [2 (or K) pointers](k_pointers.md)
+* [Tree related](Tree.md)
 
 ## Company Tagged Questions
-* [Facebook]()
+* [Facebook](#TaskScheduler)
