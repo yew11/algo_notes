@@ -8,8 +8,7 @@
     + [Triangle problem](#given-an-integer-sorted-array-with-all-positive-integer-values)
     + [Two-diff](#two-diff-problems)
     + [max(subset) - min(subset) <= target)](#bar-raiser)
-
-
+bar raiser
 
 # Two-Sum and Two-Diff problem 
 
@@ -255,7 +254,7 @@ public int validTrianglePairs(int[] array) {
 
 ### **Two-Diff problems**
 
-#### how many pairs diff = target(< target, > target), where target > 0? 
+#### How many pairs diff = target(< target, > target), where target > 0? 
 
 **(1) The array is sorted, no duplicates**
 
@@ -335,7 +334,7 @@ public int findPairs(int[] A, int diff) {
 }
 ```
 
-### Bar-rasier
+### Bar-raiser 
 **Given a sorted array, find the number of subsets that max(subset) - min(subset) <= target**
 
 clarification: target > 0,  no duplicates in the sorted array, subset size >= 1
