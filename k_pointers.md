@@ -368,7 +368,7 @@ public int findSubset(int[] A, int target) {
 }
 ```
 
-### Move Smaller Elements 
+### Move Smaller Element 
 
 //TODO 
  
