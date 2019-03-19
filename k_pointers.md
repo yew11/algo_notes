@@ -8,6 +8,7 @@
     + [Triangle problem](#given-an-integer-sorted-array-with-all-positive-integer-values)
     + [Two-diff](#two-diff-problems)
     + [max(subset) - min(subset) <= target)](#bar-raiser)
++ **[谁小移谁](#move-smaller-element)**
 
 # Two-Sum and Two-Diff problem 
 
@@ -367,4 +368,7 @@ public int findSubset(int[] A, int target) {
 }
 ```
 
+### Move Smaller Elements 
+
+//TODO 
  
