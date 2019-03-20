@@ -7,6 +7,10 @@
     + [Implement strStr](#implement-strstr)
     + [Repeated DNA Strings](#repeated-dna-strings)
     + [Find all anagrams](#find-all-anagrams)
+    + [Max value in subarray of size k](#max-value-of-each-size-k-subarray)
+    + [K largest elements in subarray of size n](#k-largest-elements-in-each-subarray-of-size-n)
+    + **[Contain duplicates](#contain-duplicates)**  
+
 
 # Partition and Removal
 
@@ -252,3 +256,56 @@ Example: `[1, 4, 3, 2, 1, 2] k = 3`
 
 result: `[4, 4, 3, 2]`
 
+(1) Brute Force: for each of the sliding window of size k, find the **largest value**
+
+TC: O(nk)
+
+The question follows: With what data structure can we represent the sliding window efficiently? 
+
+First we need to look at what operations we need to handle in this sliding window. 
+
+1. **add** array[fast] - insert()
+2. **remove** array[slow] - remove()
+3. **getMax**  - max() 
+
+Knowing that we need to handle three different operations, we can have the following options: 
+
+1. `maxHeap` 
+  + **add** O(logk)
+  + **remove** O(n) --> can be reduced to O(logk) for lazy deletion
+  + **getMax** O(1)
+2. `treeMap/treeSet` 
+  + **add** O(logk)
+  + **remove** O(logk)
+  + **getMax** O(logk)
+3. `monotonically decreasing deque`
+  + **add** O(1)  --> amortized 
+  + **remove** O(1)
+  + **getMax** O(1)
+  
+```
+public int[] maxSlidingWindow(int[] nums, int k) {
+  if (nums == null || nums.length == 0) return new int[0]; 
+  int[] res = new int[nums.length - k + 1];
+  Deque<Integer> dq = new ArrayDeque<>();    //dq to store index; 
+  for (int i = 0; i < nums.length; i++) {
+  //拿出旧又小的元素
+    while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) dq.pollLast(); 
+  //拿出过时的元素
+    if (!dq.isEmpty() && i - k >= dq.peekFirst()) dq.pollFirst(); 
+    dq.offerLast(i);
+    if (i >= k - 1) {
+      res[i - k + 1] = nums[dq.peekFirst()]; 
+    }
+  }
+  return res; 
+}
+```
+
+### K largest elements in each subarray of size n
+
+Example: `[1, 4, 3, 2, 1, 2] n = 3  k = 2`
+
+result: `<4,3>,<4,3>,<3,2>,<2,2>`
+
+### Contain Duplicates  
