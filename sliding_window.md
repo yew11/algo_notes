@@ -308,4 +308,135 @@ Example: `[1, 4, 3, 2, 1, 2] n = 3  k = 2`
 
 result: `<4,3>,<4,3>,<3,2>,<2,2>`
 
+Can we still use `monotonically decreasing deque` ? **NO**, because we would lose values. 
+
+`treeMap/treeSet` 
+  + **add** O(logk)
+  + **remove** O(logk)
+  + **get K largest** O(logk + k)
+  
+
+
 ### Contain Duplicates  
+
+**(1) Given an array of integers, find if the array contains any duplicates. [Originial Problem see here](https://leetcode.com/problems/contains-duplicate/description/)**
+
+```
+Input: [1,2,3,1]
+Output: true
+```
+
+(1) Use `Hashset` to check if a value already visited. 
+
+TC: O(n) SC: O(n)
+
+(2) Sort the array, the duplicate elements must be next to each other. 
+
+TC: O(nlogn + n) SC: O(1) 
+
+**(2) Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k. [Originial Problem](https://leetcode.com/problems/contains-duplicate-ii/description/)**
+
+```
+Input: nums = [1,2,3,1], k = 3
+Output: true
+
+Input: nums = [1,2,3,1,2,3], k = 2
+Output: false
+```
+
+(1) for each `i`, check `i + 1` to `i + k`, if there is any elements equals to array[i]
+
+TC: O(n * k)
+
+(2) for each value, 找到左侧最近的出现过这个value的位置。 
+
+Map<value, lastSeenIndex> 
+
+TC : O(n) 
+
+SC: worst case O(n) - no duplicates at all. 
+
+```
+public boolean containsNearbyDuplicate(int[] nums, int k) {
+  Map<Integer, Integer> map = new HashMap<>(); 
+  for (int i = 0; i < nums.length; i++) {
+    if (map.containsKey(nums[i])) {
+      if (i - map.get(nums[i]) <= k) return true; 
+    }
+    map.put(nums[i], i); 
+  }
+  return false; 
+}
+```
+
+(3) to optimize **space consumption**, from `O(n)` to `O(k)`, we just need to check if the nearest K elements have the same value with the current value nums[i]. 
+
+So the question breaks down to: 
+
+1. Fixed size k sliding window 
+2. HashSet to represent the size k sliding window
+
+
+```
+public boolean containsNearbyDuplicate(int[] nums, int k) {
+  Set<Integer> set = new HashSet<>();
+  for (int i = 0; i < nums.length; i++) {
+  //maintain a k size window 
+    if (!set.add(nums[i])) return true; 
+   //remove slow 
+    if (i >= k) {
+      set.remove(nums[i - k]); 
+    }
+  }
+  return false; 
+}
+```
+
+**(3) Given an array of integers, find out whether there are two distinct indices i and j in the array such that the absolute difference between nums[i] and nums[j] is at most t and the absolute difference between i and j is at most k.**
+
+```
+Input: nums = [1,2,3,1], k = 3, t = 0
+Output: true
+
+Input: nums = [1,5,9,1,5,9], k = 2, t = 3
+Output: false
+```
+
+Solution 1: 
+
+1. Fixed size k sliding window 
+2. For each value: 
+  1. 最近的`k`元素里，比我大的最小的和比我小的最大值，绝对值是否 <= d
+
+Operations we need: 
+- insert()
+- remove()
+- largestSmallerOrEquals --> floor()
+- smallestLargerOrEquals --> ceiling() 
+
+```
+ public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+  TreeSet<Long> window = new TreeSet<>(); 
+  for (int fast = 0; fast < nums.length; fast++) {
+  //invariant, check nums[fast], window record last k elements 
+    long num = nums[fast]; 
+    Long floor = window.floor(num); 
+    if (floor != null && num - floor <= t) return true; 
+    Long celling = window.ceiling(num); 
+    if (celling != null && celling - num <= t) return true; 
+    window.add(num); 
+    //remove data 
+    if (fast >= k) {
+      window.remove((long)nums[fast - k]); 
+    }
+   }
+   return false; 
+}
+```
+
+**Note: we need to convert `Integer` to `Long` to prevent overflow in OJ**
+
+Solution 2:
+
+Using `buckets` to split the value range can reduce the TC from **O(nlogn)** to **O(n)**, [Here](https://leetcode.com/problems/contains-duplicate-iii/discuss/61645/AC-O(N)-solution-in-Java-using-buckets-with-explanation) is a detailed explanation on Leetcode. 
+  
