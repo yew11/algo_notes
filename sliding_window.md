@@ -10,6 +10,7 @@
     + [Max value in subarray of size k](#max-value-of-each-size-k-subarray)
     + [K largest elements in subarray of size n](#k-largest-elements-in-each-subarray-of-size-n)
     + **[Contain duplicates](#contain-duplicates)**  
+    + [Time and Value]()
 
 
 # Partition and Removal
@@ -440,3 +441,82 @@ Solution 2:
 
 Using `buckets` to split the value range can reduce the TC from **O(nlogn)** to **O(n)**, [Here](https://leetcode.com/problems/contains-duplicate-iii/discuss/61645/AC-O(N)-solution-in-Java-using-buckets-with-explanation) is a detailed explanation on Leetcode. 
   
+### Time and Value 
+
+Given a sequence of event happened in **ascending** timestamps, each event is associated with a value, represented by two arrays. 
+
+`int[] time =      {2,   3, 5, 7,  8,   9}`
+
+`double[] value = {-3.2, 0, 2, 1, 0.8, -2}`
+
+Also given an int **value k > 0**, we would like to calculate for each of the **event time** `x`, the average value of all the events that happened between time `[x - k, x + k]` 
+
+Solution: 
+
+For each **Time index i**, **[x - k, x + k]** maintain the sum of the sliding window
+
+note: 
+
+`left`: including 
+`right` : not including
+
+```
+public double[] runningAvg(int[] time, double[] value, int k) {
+  double[] avgs = new double[time.length]; 
+  //initialization, must maintain its semantic meaning. 
+  int left = 0; 
+  int right = 0; //smallest time where diff > k 
+  int sum = 0; 
+  for (int i = 0; i < time.length; i++) {
+    //find the correct right position
+    while (right < time.length && time[right] - time[i] <= k) {
+      sum += value[right];
+      right++; 
+    }
+    while (time[i] - time[right] > k) {
+      sum -= value[left]; 
+      left++; 
+    }
+    avgs[i] = sum / (right - left); 
+  }
+  return avgs; 
+}
+```
+
+### Task Scheduler 
+
+要求：冷却时间`K`, 运行顺序不能变，完成任务的总时间.
+
+example: 
+
+`AABCB` `k = 2` 
+
+return `A--ABC-B`
+
+For each **task**, we only care about the tasks and their **execution time** in last k mins, which translates to a `K-size sliding window` 
+
+Data structures we need: 
+
+1. Map<Task, Last execution time> 
+2. Queue<task> 
+  
+```
+public int taskTime(chars[] tasks, int k) {
+  Map<Character, Integer> taskTime = new HashMap<>(); 
+  Queue<Character> window = new LinkedList<>(); 
+  int currentTime = 0; 
+  for (char t: tasks) {
+    //sliding window: 前k个时间之内运行的taks和时间
+    //goal: determine the current time for "this" task
+    Integer lastTime = taskTime.get(t); 
+    if (lastTime == null) {
+      currentTime++; 
+    } else {
+      currentTime = lastTime + k + 1;
+    }
+    
+    //remove the previous task not in the sliding window
+    
+  }
+} 
+```
