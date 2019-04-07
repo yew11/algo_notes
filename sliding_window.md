@@ -12,8 +12,8 @@
     + **[Contain duplicates](#contain-duplicates)**  
     + [Time and Value](#time-and-value)
     + [Unchanged Order task scheduler ](#task-scheduler)
-  + [Non-fixed size window](#fixed-size)
-
+  + [Non-fixed size window](#non-fixed-size)
++ **[2D-Sliding Windows](#sliding-windows)**
 
 # Partition and Removal
 
@@ -500,7 +500,7 @@ For each **task**, we only care about the tasks and their **execution time** in 
 Data structures we need: 
 
 1. Map<Task, Last execution time> 
-2. Queue<task> 
+2. Queue<task> of size K. 
   
 ```
 public int taskTime(chars[] tasks, int k) {
@@ -508,7 +508,7 @@ public int taskTime(chars[] tasks, int k) {
   Queue<Character> window = new LinkedList<>(); 
   int currentTime = 0; 
   for (char t: tasks) {
-    //sliding window: 前k个时间之内运行的taks和时间
+    //sliding window: 前k个时间之内运行的taks和时间!
     //goal: determine the current time for "this" task
     Integer lastTime = taskTime.get(t); 
     if (lastTime == null) {
@@ -517,9 +517,15 @@ public int taskTime(chars[] tasks, int k) {
       currentTime = lastTime + k + 1;
     }
     
-    //remove the previous task not in the sliding window
-    
+    //step1 : remove the previous task not in the sliding window
+    while (!window.isEmpty() && currentTime - taskTime.get(window.peek()) > k) {
+      taskTime.remove(window.poll()); 
+    }
+    //step2 : add the current task 
+    window.offer(t); 
+    taskTime.put(t, currentTime); 
   }
+  return currentTime; 
 } 
 ```
 
