@@ -10,7 +10,9 @@
     + [Max value in subarray of size k](#max-value-of-each-size-k-subarray)
     + [K largest elements in subarray of size n](#k-largest-elements-in-each-subarray-of-size-n)
     + **[Contain duplicates](#contain-duplicates)**  
-    + [Time and Value]()
+    + [Time and Value](#time-and-value)
+    + [Unchanged Order task scheduler ](#task-scheduler)
+  + [Non-fixed size window](#fixed-size)
 
 
 # Partition and Removal
@@ -520,3 +522,5 @@ public int taskTime(chars[] tasks, int k) {
   }
 } 
 ```
+
+## Non Fixed size 
