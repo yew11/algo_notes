@@ -13,7 +13,13 @@
     + [Time and Value](#time-and-value)
     + [Unchanged Order task scheduler ](#task-scheduler)
   + [Non-fixed size window](#non-fixed-size)
-+ **[2D-Sliding Windows](#sliding-windows)**
+    + [Longest subset differ by less than K](#size-of-the-subset-differ-by-less-than-k)
+  + [Side topic: prefix sum and 2-dff](#prefix-sum-and-2-diff)
+    + [Shortest subarray in a positive array](#shortest-subarray-with-sum-equals-to-target-in-a-positive-array)
+    + [Shortest subarray in a possible negative array](#shortest-subarray-with-sum-equals-to-target-in-a-possible-negative-array)
+    + [Longest subarray in a possible negative array](#longest-subarray-with-sum-equals-to-target-in-a-possible-negative-array)
+    + [Number of subarrays in a possible negative array](#number-of-subarray-with-sum-equals-to-target-in-a-possible-negative-array)
+  + [2D-Sliding Windows](#)
 
 # Partition and Removal
 
@@ -497,6 +503,12 @@ return `A--ABC-B`
 
 For each **task**, we only care about the tasks and their **execution time** in last k mins, which translates to a `K-size sliding window` 
 
+this translates to: For task **t**: 
+    
+    case 1: last time executed, currentTime = max(t + k + 1, currentTime + 1); 
+    
+    case 2: ++currentTime; 
+    
 Data structures we need: 
 
 1. Map<Task, Last execution time> 
@@ -529,4 +541,179 @@ public int taskTime(chars[] tasks, int k) {
 } 
 ```
 
+We can also use **Map** and **two pointers** to optimze the above solution
+
+```
+public int taskTime(chars[] tasks, int k) {
+  Map<Character, Integer> taskTime = new HashMap<>();  
+  int currentTime = 0;
+  int slow = 0, fast = 0; 
+  for (char t: tasks) {
+    //sliding window: 前k个时间之内运行的taks和时间!
+    //goal: determine the current time for "this" task
+    Integer lastTime = taskTime.get(t); 
+    if (lastTime == null) {
+      currentTime++; 
+    } else {
+      currentTime = lastTime + k + 1;
+    }
+    
+    //step1 : remove the previous task not in the sliding window
+    while (slow < fast && taskTime.get(tasks[slow]) > k) {
+      taskTime.remove(tasks[slow]); 
+      slow++; 
+    }
+    //step2 : add the current task 
+    fast++;  
+    taskTime.put(t, currentTime); 
+  }
+  return currentTime; 
+} 
+```
+
 ## Non Fixed size 
+
+分解问题的方式依然是**固定fast（或者slow）**，Need to guarantee, `fast` moves right, `slow` cannot move left. 
+
+Here is a general template for understanding the sliding window problem: 
+
+```
+int fast = 0;
+while (fast < n) { // for each fast (iterating from left to right) 
+
+1. add fast COMPUTATION into the sliding window
+//the sliding window should include fast 
+//[slow, fast] is the sliding window
+
+2.move slow to the desired position according its semantic for the current fast 
+while (slow is not in position) {
+  remove slow from sliding window
+  slow++; 
+}
+//here, slow is at its desired position 
+3. move fast to the next position 
+fast++; 
+}
+```
+
+### Size of the subset differ by less than K 
+
+Return the size of the largest subset from array such that no two elements of the subset differ by more than `K`
+
+example: ` arr = [4, 3, 15, 0, 21], k = 5` 
+
+return `3 (4, 3, 0)`
+
+解题关键：
+
+1. we only need to look at the **max**, **min** value that `max - min <= K`
+2. the largest subset should contain consecutive values in the sorted array. 
+3. sort the array. 
+4. 分解fast，以fast作为最大值，找到满足条件的slow ==> `array[fast] - array[slow] <= target`最大的。 
+
+```
+public int largestSubsetSize(int[] array, int k) {
+  Arrays.sort(array); 
+  int fast = 0; 
+  int slow = 0; 
+  int longest = 0; 
+  while (fast < array.length) {
+    //adjust slow 
+    while (array[fast] - array[slow] >= k) {
+      slow++; 
+    }
+    longest = Math.max(longest, fast - slow + 1); 
+    fast++; 
+  }
+  return longest; 
+}
+```
+
+## Prefix sum and 2 Diff 
+
+### Shortest subarray with sum equals to target in a positive array 
+
+
+
+### **Shortest** subarray with sum equals to target in a possible negative array
+
+example: `a = [3, 0, -1, -3, 4], target = 4`
+
+`return: 1 (4)`
+
+**2-diff problem**, find smallest j (fast index) - i where array[j] - array[i] == target 
+
+For each `j`, find rightmost `i` with prefixsum[i] == prefixsum[j] - target 
+
+Use a **HashMap<Value, last_index>** to store the elements before `j` and its corresponding lastest index 
+
+```
+public int shortest(int[] array, int target) {
+  int res = Integer.MAX_VALUE; 
+  Map<Integer, Integer> rightMost = new HashMap<>(); 
+  rightMost.put(0, -1); 
+  int sum = 0; 
+  for (int j = 0; j < array.length; j++) {
+    sum += array[j]; 
+    //check i, guarantee only contains the element before index j 
+    Integet i = rightMost.get(sum - target); 
+    if (i != null) {
+      res = Math.min(res, j - i); 
+    }
+    //prefixsum[j] store the map
+    rightMost.put(sum, j); 
+  }
+  return res; 
+}
+```
+
+### **Longest** subarray with sum equals to target in a possible negative array
+
+Use a **HashMap<Value, earlist_index>** to store the elements before `j` and its corresponding **earliest** index 
+
+```
+public int longest(int[] array, int target) {
+  int res = Integer.MIN_VALUE; 
+  Map<Integer, Integer> leftMost = new HashMap<>(); 
+  leftMost.put(0, -1); 
+  int sum = 0; 
+  for (int j = 0; j < array.length; j++) {
+    sum += array[j]; 
+    //check i, guarantee only contains the element before index j 
+    Integet i = leftMost.get(sum - target); 
+    if (i != null) {
+      res = Math.max(res, j - i); 
+    }
+    //prefixsum[j] store the map
+    if (!leftMost.containsKey(sum)) {
+      leftMost.put(sum, j); 
+    }
+  }
+  return res; 
+}
+```
+
+### **number** of subarray with sum equals to target in a possible negative array
+
+**HashMap<Value, count>** to store the elements before `j` and its occurrence
+
+```
+public int numOfSubarray(int[] array, int target) {
+  int res = 0; 
+  Map<Integer, Integer> count = new HashMap<>(); 
+  count.put(0, 1); 
+  int sum = 0; 
+  for (int j = 0; j < array.length; j++) {
+    sum += array[j]; 
+    //check curCnt, guarantee only contains the element before index j 
+    Integet i = count.get(sum - target); 
+    if (i != null) {
+      res += curCnt;  
+    }
+    //prefixsum[j] store the map
+    count.put(sum, count.getOrDefault(sum, 0) + 1);
+  }
+  return res; 
+}
+```
+
