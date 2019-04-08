@@ -2,9 +2,9 @@
 
 ## Categories of sorting algorithms
 ### Comparison based: 
-  * **QuickSort**
-  * **MergeSort** 
-  * **HeapSort**
+  * **[MergeSort](#mergesort)** 
+  * **[QuickSort](#quicksort)**
+  * **[HeapSort](#heapsort)**
   * InsertSort
   * _more..._
 ### Non-Comparison based  
@@ -13,7 +13,7 @@
   
 _TODO (add algorithms)_
 ## MergeSort, QuickSort and HeapSort 
-#### MergeSort
+### MergeSort
 1. Stable sort, order matters. 
 2. Generally used to compare **Objects** in Java. 
 3. Time: Guarantee O(nlogn) 
