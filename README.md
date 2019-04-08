@@ -23,7 +23,11 @@ _More housekeeping rules to be added!_
 * [About Sorting](sorting.md)
 * [2 (or K) pointers](k_pointers.md)
 * [Sliding Window](sliding_window.md)
+  1. Fixed size sliding window
+  2. Non-fixed size sliding window
+  3. Prefix sum
+  4. Sliding window in 2D matrix
 * [Tree related](Tree.md)
 
 ## Company Tagged Questions
-* [Facebook](#TaskScheduler.md)
+* Facebook 
