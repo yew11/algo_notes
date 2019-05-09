@@ -62,3 +62,45 @@ private void pushLeft(TreeNode cur, Stack<TreeNode> stk) {
 }
 ```
 
+Modifying Tree Structures
+
+### Remove all zero subtrees 
+
+Recursion 定义：
+1. **`Input`**: TreeNode root.
+2. **`Problem`**: Change the subtree structure. 
+3. **`Return`**: Return the changed structure, which is also the `root`.
+
+```
+public TreeNode deleteAllZero(TreeNode root) {
+  if (root == null) return null; 
+  root.left = deleteAllZero(root.left); 
+  root.right = deleteAllZero(root.right); 
+  
+  //what is the change to the current root 
+  //
+  if (root.left == null && root.right == null && root.val == 0) {
+    return null; 
+  }
+  return root; 
+  
+}
+```
+
+### Combine two Trees 
+
+```
+public TreeNode combineTree(TreeNode t1, TreeNode t2) {
+  if (t1 == null && t2 == null) {
+    return null;
+  }
+  if (t1 == null) return t2; 
+  if (t2 == null) return t1; 
+  
+  //t1 != null && t2 != null  
+  TreeNode root = new TreeNode(t1.val || t2.val); 
+  root.left = combineTree(t1.left, t2.left); 
+  root.right = combineTree(t2.right, t2.right);
+  return root; 
+} 
+```
