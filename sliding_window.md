@@ -38,7 +38,7 @@ example: `[1, 0, 0, 2, 3, 0, 4]` --> `[1, 2, 3, 4, 0, 0, 0]`
 
 (slow, fast]: the area we don't really care. 
 
-```
+```java
 public void moveZeros(int[] array) {
   int slow = -1; 
   for (int fast = 0; fast < array.length; i++) {
@@ -72,7 +72,7 @@ Key point : **Fixed sliding window with a length of the smaller string**.
 
 (1) Brutal Force: Check each if there is a subsubtring in the longer string matches all the characters in the shorter one. 
 
-```
+```java
 public int isStr(String needle, String haystack) {
   for (int i = 0; i <= haystack.length() - needle.length(); i++) {
     if (equals(haystack, needle, i)) return i; 
@@ -98,7 +98,7 @@ bcd = b * 26^2 + c * 26^1 + d * 26^0
 
 When the two strings are the same, they share the `Hash Value`.
 
-```
+```java
 public int isStr2(String needle, String haystack) {
   //large prime as module end. 
   int largePrime = 101; 
@@ -162,7 +162,7 @@ use **Set<String>** to record all the traversed size 10 substrings
 
 TC: O(k * N)
 
-```
+```java
 public List<String> findRepeatedDnaSequences(String s) {
   Set<String> res = new HashSet<>(); 
   Set<String> seen = new HashSet<>(); 
@@ -197,7 +197,7 @@ A A C C T C C G G T
 
 00 00 01 01 11 01 01 10 10 11 = 00000101110101101011 (binary) = 23915 (decimal)
 
-```
+```java
 public List<String> findRepeatedDnaSequences(String s) {
     Set<Integer> words = new HashSet<>();
     Set<Integer> doubleWords = new HashSet<>();
@@ -232,7 +232,7 @@ use **HashMap<Character, count> + `matched`** to represent sliding window, which
 2. `remove` slow --> O(1) 
 3. `check` anagram --> check if `matched` == map.size();  
 
-```
+```java
 public List<Integer> findAnagrams(String s, String p) {
   List<Integer> res = new ArrayList<>(); 
   Map<Character, Integer> map = new HashMap<>(); 
@@ -292,7 +292,7 @@ Knowing that we need to handle three different operations, we can have the follo
   + **remove** O(1)
   + **getMax** O(1)
   
-```
+```java
 public int[] maxSlidingWindow(int[] nums, int k) {
   if (nums == null || nums.length == 0) return new int[0]; 
   int[] res = new int[nums.length - k + 1];
@@ -365,7 +365,7 @@ TC : O(n)
 
 SC: worst case O(n) - no duplicates at all. 
 
-```
+```java
 public boolean containsNearbyDuplicate(int[] nums, int k) {
   Map<Integer, Integer> map = new HashMap<>(); 
   for (int i = 0; i < nums.length; i++) {
@@ -386,7 +386,7 @@ So the question breaks down to:
 2. HashSet to represent the size k sliding window
 
 
-```
+```java
 public boolean containsNearbyDuplicate(int[] nums, int k) {
   Set<Integer> set = new HashSet<>();
   for (int i = 0; i < nums.length; i++) {
@@ -423,7 +423,7 @@ Operations we need:
 - largestSmallerOrEquals --> floor()
 - smallestLargerOrEquals --> ceiling() 
 
-```
+```java
  public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
   TreeSet<Long> window = new TreeSet<>(); 
   for (int fast = 0; fast < nums.length; fast++) {
@@ -468,7 +468,7 @@ note:
 `left`: including 
 `right` : not including
 
-```
+```java
 public double[] runningAvg(int[] time, double[] value, int k) {
   double[] avgs = new double[time.length]; 
   //initialization, must maintain its semantic meaning. 
@@ -514,7 +514,7 @@ Data structures we need:
 1. Map<Task, Last execution time> 
 2. Queue<task> of size K. 
   
-```
+```java
 public int taskTime(chars[] tasks, int k) {
   Map<Character, Integer> taskTime = new HashMap<>(); 
   Queue<Character> window = new LinkedList<>(); 
@@ -543,7 +543,7 @@ public int taskTime(chars[] tasks, int k) {
 
 We can also use **Map** and **two pointers** to optimze the above solution
 
-```
+```java
 public int taskTime(chars[] tasks, int k) {
   Map<Character, Integer> taskTime = new HashMap<>();  
   int currentTime = 0;
@@ -577,7 +577,7 @@ public int taskTime(chars[] tasks, int k) {
 
 Here is a general template for understanding the sliding window problem: 
 
-```
+```java
 int fast = 0;
 while (fast < n) { // for each fast (iterating from left to right) 
 
@@ -611,7 +611,7 @@ return `3 (4, 3, 0)`
 3. sort the array. 
 4. 分解fast，以fast作为最大值，找到满足条件的slow ==> `array[fast] - array[slow] <= target`最大的。 
 
-```
+```java
 public int largestSubsetSize(int[] array, int k) {
   Arrays.sort(array); 
   int fast = 0; 
@@ -647,7 +647,7 @@ For each `j`, find rightmost `i` with prefixsum[i] == prefixsum[j] - target
 
 Use a **HashMap<Value, last_index>** to store the elements before `j` and its corresponding lastest index 
 
-```
+```java
 public int shortest(int[] array, int target) {
   int res = Integer.MAX_VALUE; 
   Map<Integer, Integer> rightMost = new HashMap<>(); 
@@ -671,7 +671,7 @@ public int shortest(int[] array, int target) {
 
 Use a **HashMap<Value, earlist_index>** to store the elements before `j` and its corresponding **earliest** index 
 
-```
+```java
 public int longest(int[] array, int target) {
   int res = Integer.MIN_VALUE; 
   Map<Integer, Integer> leftMost = new HashMap<>(); 
@@ -697,7 +697,7 @@ public int longest(int[] array, int target) {
 
 **HashMap<Value, count>** to store the elements before `j` and its occurrence
 
-```
+```java
 public int numOfSubarray(int[] array, int target) {
   int res = 0; 
   Map<Integer, Integer> count = new HashMap<>(); 
