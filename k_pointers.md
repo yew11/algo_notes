@@ -47,7 +47,7 @@ public boolean twoSum(int[] array, int target) {
 
 the only difference from the previous question is to maintain an `answer count`, when we have a sum equals to the target, increment the count and move any of the one pointers one step. 
 
-``` 
+```java
 public int twoSum(int[] array, int target) {
   int left = 0; 
   int right = array.length - 1;
@@ -70,7 +70,7 @@ e.g: `[1, 1, 3, 3] target = 4, return 1`
 
 This is also easy because we can `skip the duplicate elements` (by moving `right` pointer). 
 
-```
+```java
 public int twoSum(int[] array, int target) {
   int left = 0; 
   int right = array.length - 1;
@@ -97,7 +97,7 @@ e.g: `[1, 1, 3, 3] target = 4, return 4`
 
 算法比较直接：找出有几个`left` pointer 和有几个`right`pointer的和加起来等于`target`, 然后相乘，但是实现起来要特别注意! 
 
-```
+```java
 public int twoSum(int[] array, int target) {
   int left = 0; 
   int right = array.length - 1;
@@ -156,7 +156,7 @@ e.g: `[1, 3, 1, 3] target = 4, return 4`
  
  return **4**
   
- ```
+ ```java
  public int twoSum(int[] array, int target) {
   int count = 0; 
   Map<Integer, Integer> map = new HashMap<>(); 
@@ -208,7 +208,7 @@ So, the problem translates to: **Find if there is any index tuple, such i < j < 
 
 题目只要找出一对满足要求的tuple，那我们选择固定最右边的K，所以 i = k - 1， j = k - 2
 
-```
+```java
 public boolean validTriangle(int[] array) {
     for (int i = array.length - 1; i > 1; i--) {
         if (array[i] < array[i - 1] + array[i - 2]) return true; 
@@ -233,7 +233,7 @@ Solution：
 
 你可能已经看到了，这道题可以转换成`2 sum larger than target`的经典问题。
 
-```
+```java
 public int validTrianglePairs(int[] array) {
     int count = 0; 
     for (int i = array.length - 1; i > 1; i--) {
@@ -266,7 +266,7 @@ Solution:
 
 还是和之前一样，固定J，只不过这一次同向而行，找出所有的i < j, such that array[i] = array[j] - diff 
 
-```
+```java
 public int diffPairs(int[] A, int diff) {
     int res = 0;
     int i = 0, j = 1; 
@@ -289,7 +289,7 @@ public int diffPairs(int[] A, int diff) {
 array = [1, 2, 3, 4, 5] target = 2, return 2 (4-1), (5-2)
 
 
-```
+```java
 public int diffPairs(int[] A, int diff) {
     int res = 0;
     int i = 0, j = 1; 
@@ -320,7 +320,7 @@ Solution 2:
    Find numbers of i < j, that array[i] = array[j] - target
    Find numbers of i < j, that array[i] = array[j] + target
     
-```
+```java
 public int findPairs(int[] A, int diff) {
     //maintain a count for each value traversed so far
     Map<Integer, Integer> map = new HashMap<>(); 
@@ -351,7 +351,7 @@ for each j (array[j] as the `max` number in the subsets ending at j):
 
 we find the leftmost `i` such that i <= j, and array[j] - array[i] <= target
 
-```
+```java
 public int findSubset(int[] A, int target) {
     int i = 0; 
     int j = 0; 
