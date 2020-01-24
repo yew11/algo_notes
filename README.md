@@ -21,8 +21,8 @@ _More housekeeping rules to be added!_
 
 ## Table of Contents  
 * [About Sorting](sorting.md)
-* [2 (or K) pointers](k_pointers.md)
-* [Sliding Window](sliding_window.md)
+* [2 (or K) pointers](pointersAndSlindingWindow/k_pointers.md)
+* [Sliding Window](pointersAndSlindingWindow/sliding_window.md)
   1. Fixed size sliding window
   2. Non-fixed size sliding window
   3. Prefix sum

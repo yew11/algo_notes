@@ -26,18 +26,21 @@
     + `HashSet` record all the elements before `j`
     + `Two pointers` traversing the array starting in the opposite direction 
 
-```
+```java
 //two pointers 
-public boolean twoSum(int[] array, int target) {
-  int left = 0; 
-  int right = array.length - 1;
-  while (left < right) {
-    sum = array[left] + array[right]; 
-    if (sum == target) return true; 
-    else if (sum < target) left++;  // 固定j
-    else right++;
-  }
-  return false; 
+class Solution {
+    
+    public boolean twoSum(int[] array, int target) {
+      int left = 0; 
+      int right = array.length - 1;
+      while (left < right) {
+        sum = array[left] + array[right]; 
+        if (sum == target) return true; 
+        else if (sum < target) left++;  // 固定j
+        else right++;
+      }
+      return false; 
+    }
 }
 ```
 
@@ -48,19 +51,21 @@ public boolean twoSum(int[] array, int target) {
 the only difference from the previous question is to maintain an `answer count`, when we have a sum equals to the target, increment the count and move any of the one pointers one step. 
 
 ```java
-public int twoSum(int[] array, int target) {
-  int left = 0; 
-  int right = array.length - 1;
-  int count = 0; 
-  while (left < right) {
-    sum = array[left] + array[right]; 
-    if (sum == target) {
-      count++; 
-      right--; 
-    } else if (sum < target) left++;  // 固定j
-    else right++;
-  }
-  return count; 
+class Solution {
+    public int twoSum(int[] array, int target) {
+      int left = 0; 
+      int right = array.length - 1;
+      int count = 0; 
+      while (left < right) {
+        sum = array[left] + array[right]; 
+        if (sum == target) {
+          count++; 
+          right--; 
+        } else if (sum < target) left++;  // 固定j
+        else right++;
+      }
+      return count; 
+    }
 }
 ```
 
@@ -71,23 +76,25 @@ e.g: `[1, 1, 3, 3] target = 4, return 1`
 This is also easy because we can `skip the duplicate elements` (by moving `right` pointer). 
 
 ```java
-public int twoSum(int[] array, int target) {
-  int left = 0; 
-  int right = array.length - 1;
-  int count = 0; 
-  while (left < right) {
-    sum = array[left] + array[right]; 
-    if (sum == target) {
-      count++; 
-      //ONLY DIFFERENCE 
-      while (right > left && array[right] == array[right - 1]) {
-        right--;    // we arrive at the FIRST dup element. 
+class Solution {
+    public int twoSum(int[] array, int target) {
+      int left = 0; 
+      int right = array.length - 1;
+      int count = 0; 
+      while (left < right) {
+        sum = array[left] + array[right]; 
+        if (sum == target) {
+          count++; 
+          //ONLY DIFFERENCE 
+          while (right > left && array[right] == array[right - 1]) {
+            right--;    // we arrive at the FIRST dup element. 
+          }
+          right--; 
+        } else if (sum < target) left++;  // 固定j
+        else right++;
       }
-      right--; 
-    } else if (sum < target) left++;  // 固定j
-    else right++;
-  }
-  return count; 
+      return count; 
+    }
 }
 ```
 
@@ -98,38 +105,40 @@ e.g: `[1, 1, 3, 3] target = 4, return 4`
 算法比较直接：找出有几个`left` pointer 和有几个`right`pointer的和加起来等于`target`, 然后相乘，但是实现起来要特别注意! 
 
 ```java
-public int twoSum(int[] array, int target) {
-  int left = 0; 
-  int right = array.length - 1;
-  int count = 0; 
-  while (left < right) {
-    sum = array[left] + array[right]; 
-    if (sum == target) {
-      //CASE 1: array[left] == array[right] --> [2, 2, 2] target = 4 C3,2
-      if (array[left] == array[right]) {
-        count += (right - left + 1) * (right - left) / 2;   // (2 - 0 + 1) * (2 - 0) / 2 = 3  
-        break; 
+class Solution {
+    public int twoSum(int[] array, int target) {
+      int left = 0; 
+      int right = array.length - 1;
+      int count = 0; 
+      while (left < right) {
+        sum = array[left] + array[right]; 
+        if (sum == target) {
+          //CASE 1: array[left] == array[right] --> [2, 2, 2] target = 4 C3,2
+          if (array[left] == array[right]) {
+            count += (right - left + 1) * (right - left) / 2;   // (2 - 0 + 1) * (2 - 0) / 2 = 3  
+            break; 
+          }
+          //CASE 2: 1, 1, 3, 3
+          int leftCount = 1; 
+          int rightCount = 1; 
+          //Get how many left pointer that is equals to the target
+          while (left + 1 < right && array[left] == array[left + 1]) {
+            leftCount++; 
+            left++; 
+          }
+          //get the right pointers
+          while (right > left + 1 && array[right] == array[right - 1]) {
+            rightCount++; 
+            right--; 
+          }
+          left++;
+          right--; 
+          count += leftCount * rightCount; 
+        } else if (sum < target) left++;  // 固定j
+        else right++;
       }
-      //CASE 2: 1, 1, 3, 3
-      int leftCount = 1; 
-      int rightCount = 1; 
-      //Get how many left pointer that is equals to the target
-      while (left + 1 < right && array[left] == array[left + 1]) {
-        leftCount++; 
-        left++; 
-      }
-      //get the right pointers
-      while (right > left + 1 && array[right] == array[right - 1]) {
-        rightCount++; 
-        right--; 
-      }
-      left++;
-      right--; 
-      count += leftCount * rightCount; 
-    } else if (sum < target) left++;  // 固定j
-    else right++;
-  }
-  return count; 
+      return count; 
+    }
 }
 ```
 
@@ -157,15 +166,17 @@ e.g: `[1, 3, 1, 3] target = 4, return 4`
  return **4**
   
  ```java
- public int twoSum(int[] array, int target) {
-  int count = 0; 
-  Map<Integer, Integer> map = new HashMap<>(); 
-  for (int i = 0; i < array.length; i++) {
-    count += map.getOrDefault(target - array[i], 0); 
-    map.put(array[i], map.getOrDefault(array[i], 0) + 1); 
-  }
-  return count; 
- }
+ class Solution {
+     public int twoSum(int[] array, int target) {
+      int count = 0; 
+      Map<Integer, Integer> map = new HashMap<>(); 
+      for (int i = 0; i < array.length; i++) {
+        count += map.getOrDefault(target - array[i], 0); 
+        map.put(array[i], map.getOrDefault(array[i], 0) + 1); 
+      }
+      return count; 
+     }
+}
  ```
  
  ### **Given two arbitary array, find all pairs with largest sum smaller than target**
@@ -209,11 +220,13 @@ So, the problem translates to: **Find if there is any index tuple, such i < j < 
 题目只要找出一对满足要求的tuple，那我们选择固定最右边的K，所以 i = k - 1， j = k - 2
 
 ```java
-public boolean validTriangle(int[] array) {
-    for (int i = array.length - 1; i > 1; i--) {
-        if (array[i] < array[i - 1] + array[i - 2]) return true; 
-        else continue; 
-    }    
+class Solution {
+    public boolean validTriangle(int[] array) {
+        for (int i = array.length - 1; i > 1; i--) {
+            if (array[i] < array[i - 1] + array[i - 2]) return true; 
+            else continue; 
+        }    
+    }
 }
 ```
 
@@ -234,18 +247,20 @@ Solution：
 你可能已经看到了，这道题可以转换成`2 sum larger than target`的经典问题。
 
 ```java
-public int validTrianglePairs(int[] array) {
-    int count = 0; 
-    for (int i = array.length - 1; i > 1; i--) {
-        int left = 0;
-        int right = i - 1; 
-        while (left < right) {
-            if (array[left] + array[right] > array[i]) {
-                count += (right - left); 
-                right--; 
-            } else left++; 
+class Solution {
+    public int validTrianglePairs(int[] array) {
+        int count = 0; 
+        for (int i = array.length - 1; i > 1; i--) {
+            int left = 0;
+            int right = i - 1; 
+            while (left < right) {
+                if (array[left] + array[right] > array[i]) {
+                    count += (right - left); 
+                    right--; 
+                } else left++; 
+            }
+            return count; 
         }
-        return count; 
     }
 }
 ```
@@ -267,20 +282,22 @@ Solution:
 还是和之前一样，固定J，只不过这一次同向而行，找出所有的i < j, such that array[i] = array[j] - diff 
 
 ```java
-public int diffPairs(int[] A, int diff) {
-    int res = 0;
-    int i = 0, j = 1; 
-    while (j < A.length) {
-        if (A[i] == A[j] - diff) {
-            j++; 
-            res++; 
-        } else if (A[i] < A[j] - diff) {
-            i++; 
-        } else {
-            j++; 
+class Solution {
+    public int diffPairs(int[] A, int diff) {
+        int res = 0;
+        int i = 0, j = 1; 
+        while (j < A.length) {
+            if (A[i] == A[j] - diff) {
+                j++; 
+                res++; 
+            } else if (A[i] < A[j] - diff) {
+                i++; 
+            } else {
+                j++; 
+            }
         }
+        return res; 
     }
-    return res; 
 }
 ```
 
@@ -290,18 +307,20 @@ array = [1, 2, 3, 4, 5] target = 2, return 2 (4-1), (5-2)
 
 
 ```java
-public int diffPairs(int[] A, int diff) {
-    int res = 0;
-    int i = 0, j = 1; 
-    while (j < A.length) {
-        if (A[i] >= A[j] - diff) {
-            j++; 
-            res += i; 
-        } else { //A[j] - A[i] > target
-            i++; 
+class Solution {
+    public int diffPairs(int[] A, int diff) {
+        int res = 0;
+        int i = 0, j = 1; 
+        while (j < A.length) {
+            if (A[i] >= A[j] - diff) {
+                j++; 
+                res += i; 
+            } else { //A[j] - A[i] > target
+                i++; 
+            }
         }
+        return res; 
     }
-    return res; 
 }
 ```
 
@@ -321,16 +340,18 @@ Solution 2:
    Find numbers of i < j, that array[i] = array[j] + target
     
 ```java
-public int findPairs(int[] A, int diff) {
-    //maintain a count for each value traversed so far
-    Map<Integer, Integer> map = new HashMap<>(); 
-    int count = 0; 
-    for (int ele : A) {
-        count += map.getOrDefault(ele - diff, 0); 
-        count += map.getOrDefault(ele + diff, 0); 
-        map.put(ele, map.getOrDefault(ele, 0) + 1); 
+class Solution {
+    public int findPairs(int[] A, int diff) {
+        //maintain a count for each value traversed so far
+        Map<Integer, Integer> map = new HashMap<>(); 
+        int count = 0; 
+        for (int ele : A) {
+            count += map.getOrDefault(ele - diff, 0); 
+            count += map.getOrDefault(ele + diff, 0); 
+            map.put(ele, map.getOrDefault(ele, 0) + 1); 
+        }
+        return count; 
     }
-    return count; 
 }
 ```
 
@@ -352,23 +373,56 @@ for each j (array[j] as the `max` number in the subsets ending at j):
 we find the leftmost `i` such that i <= j, and array[j] - array[i] <= target
 
 ```java
-public int findSubset(int[] A, int target) {
-    int i = 0; 
-    int j = 0; 
-    int res = 0; 
-    while (j < A.length) {
-        if (A[j] - A[i] <= target) {
-            res += 1 << (j - i); 
-            j++; 
-        } else {
-            i++; 
+class Solution {
+    public int findSubset(int[] A, int target) {
+        int i = 0; 
+        int j = 0; 
+        int res = 0; 
+        while (j < A.length) {
+            if (A[j] - A[i] <= target) {
+                res += 1 << (j - i); 
+                j++; 
+            } else {
+                i++; 
+            }
         }
+        return res; 
     }
-    return res; 
+}
+```
+
+# Expand two pointers in different array
+
+## Q1
+
+Given two sorted array, if there exist two number a from A and b from B, such that a + b = target
+
+A = {1, 3, 5} 
+
+B = {3, 4, 6}
+
+```java
+class Solution {
+    public boolean findPair(int[] A, int[] B, int target) {
+        int i = 0;
+        int j = B.length - 1; 
+        while (j >= 0 && i < A.length) {
+            int curTarget = A[i] + B[j];
+            if (curTarget == target) {
+                return true;
+            } else if (curTarget < target) {
+                i++;
+            } else {
+                j--;
+            }
+        }
+        return false;
+    }
 }
 ```
 
 ### Move Smaller Element 
 
 //TODO 
+ 
  
